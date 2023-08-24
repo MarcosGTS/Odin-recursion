@@ -9,15 +9,41 @@ function mergesort(list) {
         helper(list, start, center); //sort left
         helper(list, center, end);   //sort right
         
-        merge(start, center, end);
+        merge(list, start, center, end);
     }
     
-    function merge(start, center, end) {
-        console.log(start, center, end);
+    function merge(list, start, center, end) {
+       let smaller1 = start;
+       let smaller2 = center;
+       let sortedSection = [];
+
+       while (smaller1 < center && smaller2 < end) { 
+            if (list[smaller1] < list[smaller2]) {
+                sortedSection.push(list[smaller1]); 
+                smaller1++;
+            } else {
+                sortedSection.push(list[smaller2]); 
+                smaller2++;
+            }
+       }
+
+       for (let i = smaller1; i < center; i++) {
+            sortedSection.push(list[i]);
+       }
+      
+       for (let i = smaller2; i < end; i++) {
+            sortedSection.push(list[i]);
+       }
+
+       for (let i = start; i < end; i++) {
+            list[i] = sortedSection[i - start];
+       }
     }
 
-    return  helper(list, 0, list.length);
+    helper(list, 0, list.length);
+
+    return list;
 }
 
-let list = [5, 4, 3, 2, 1];
-mergesort(list);
+let list = [1, 2, 3, 4, 5, 6];
+console.log(mergesort(list));
